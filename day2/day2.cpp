@@ -21,7 +21,6 @@ std::vector< std::vector<int> > read_input_file(std::string file_name)
 	{	
 	    std::vector<int> row_ints;
 		std::stringstream ss(row);
-		std::cout << row << std::endl;
 		while(ss.getline(cell, 10, '\t'))
 		{
 		    row_ints.push_back(atoi(cell));
@@ -37,8 +36,29 @@ int checksum(std::vector< std::vector<int> > input)
     for(int i = 0; i < input.size(); i++)
     {
         std::sort(input.at(i).begin(), input.at(i).end());
-        std::cout << *(input.at(i).end() - 1) << ' ' << *input.at(i).begin() << std::endl;
         sum += *(input.at(i).end()-1) - *input.at(i).begin();
+    }
+    return sum;
+}
+
+int checksum_division(std::vector< std::vector<int> > input)
+{
+    int sum = 0;
+    for(int i = 0; i < input.size(); i++)
+    {
+        for(int j = 0; j < input.at(i).size(); j++)
+        {
+            std::vector<int> copy = input.at(i);
+            for(int k = 0; k < copy.size(); k++)
+            {
+                if(input.at(i).at(j) % input.at(i).at(k) == 0 && j != k)
+                {
+                    sum += input.at(i).at(j)/input.at(i).at(k);
+                    break;
+                }
+            }
+            
+        }
     }
     return sum;
 }
@@ -48,6 +68,6 @@ int main()
 	std::vector< std::vector<int> > input = read_input_file("input.txt");
 	
 	std::cout << checksum(input) << std::endl;
-	
+	std::cout << checksum_division(input) << std::endl;
 	return 0;
 }
